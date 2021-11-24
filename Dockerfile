@@ -119,9 +119,10 @@ COPY ./start.sh /start.sh
 
 #install SQLAnywhere
 ADD ./tools/SQLAnywhere-php-7.4_Linux.tar.gz /tmp/tools
-ADD ./tools/sqla17_client_linux_x86x64.tar.gz /tmp/tools
+#ADD ./tools/sqla17_client_linux_x86x64.tar.gz /tmp/tools
+ADD ./tools/sqla1201_client_linux_x86x64.tar.gz /tmp/tools
 COPY ./tools/initsqaw.sh /tmp/tools
-#COPY ./tools/php7.4-fpm.service /etc/systemd/system/multi-user.target.wants
+COPY ./tools/php7.4-fpm.service /etc/systemd/system/multi-user.target.wants
 WORKDIR /tmp/tools
 RUN ./initsqaw.sh
 WORKDIR /www
