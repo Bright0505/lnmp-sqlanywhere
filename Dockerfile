@@ -80,17 +80,16 @@ RUN buildDeps='curl gcc make autoconf libc-dev zlib1g-dev pkg-config' \
     && sed -i -e "s/pm.max_requests = 500/pm.max_requests = 200/g" ${fpm_conf} \
     && sed -i -e "s/www-data/nginx/g" ${fpm_conf} \
     && sed -i -e "s/^;clear_env = no$/clear_env = no/" ${fpm_conf} \
-    # import php sqlanywhere lib
-    && echo "extension=php-7.4.0_sqlanywhere_r.so" >> ${php_conf} \
-    && echo "env['LD_LIBRARY_PATH'] = /opt/sqlanywhere17/lib64" >> ${fpm_conf} \
     && echo "extension=redis.so" > /etc/php/7.4/mods-available/redis.ini \
     && echo "extension=memcached.so" > /etc/php/7.4/mods-available/memcached.ini \
-    #&& echo "LD_LIBRARY_PATH=/opt/sqlanywhere17/lib64" > /etc/environment \
-    #&& echo "export LD_LIBRARY_PATH=/opt/sqlanywhere17/lib64" >> /etc/profile \
     && ln -sf /etc/php/7.4/mods-available/redis.ini /etc/php/7.4/fpm/conf.d/20-redis.ini \
     && ln -sf /etc/php/7.4/mods-available/redis.ini /etc/php/7.4/cli/conf.d/20-redis.ini \
     && ln -sf /etc/php/7.4/mods-available/memcached.ini /etc/php/7.4/fpm/conf.d/20-memcached.ini \
     && ln -sf /etc/php/7.4/mods-available/memcached.ini /etc/php/7.4/cli/conf.d/20-memcached.ini \
+    # import php sqlanywhere lib
+    && echo "extension = /var/lib/sqlanywhere/lib64/php-7.4.0_sqlanywhere_r.so" > /etc/php/7.4/mods-available/SQLAnywhere.ini \
+    && ln -sf /etc/php/7.4/mods-available/SQLAnywhere.ini /etc/php/7.4/fpm/conf.d/40-SQLAnywhere.ini \
+    && echo "env['LD_LIBRARY_PATH'] = /opt/sqlanywhere17/lib64" >> ${fpm_conf} \
     # Install Composer
     && curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
@@ -118,14 +117,14 @@ COPY html /www
 COPY ./start.sh /start.sh
 
 #install SQLAnywhere
-ADD ./tools/SQLAnywhere-php-7.4_Linux.tar.gz /tmp/tools
+ADD ./tools/SQLAnywhere-php-7.4_Linux.tar.gz /var/lib/sqlanywhere
 ADD ./tools/sqla17_client_linux_x86x64.tar.gz /tmp/tools
 COPY ./tools/initsqaw.sh /tmp/tools
-#COPY ./tools/php7.4-fpm.service /etc/systemd/system/multi-user.target.wants
 WORKDIR /tmp/tools
 RUN ./initsqaw.sh
 WORKDIR /www
 
 EXPOSE 80
+EXPOSE 8181
 
 CMD ["/start.sh"]
