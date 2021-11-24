@@ -119,12 +119,10 @@ COPY ./start.sh /start.sh
 #install SQLAnywhere
 ADD ./tools/SQLAnywhere-php-7.4_Linux.tar.gz /var/lib/sqlanywhere
 ADD ./tools/sqla17_client_linux_x86x64.tar.gz /tmp/tools
-COPY ./tools/initsqaw.sh /tmp/tools
-WORKDIR /tmp/tools
-RUN ./initsqaw.sh
+RUN sh /tmp/tools/client17010/setup -ss -I_accept_the_license_agreement && sh /opt/sqlanywhere17/bin64/sa_config.sh
 WORKDIR /www
 
 EXPOSE 80
-EXPOSE 8181
+EXPOSE 443
 
 CMD ["/start.sh"]
