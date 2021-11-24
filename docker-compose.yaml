@@ -5,6 +5,7 @@ services:
     build: .
     ports:
       - "80:80"
+      - "8181:8181"
     volumes:
       - ./html:/www
     links:
