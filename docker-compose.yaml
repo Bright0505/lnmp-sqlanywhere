@@ -8,6 +8,7 @@ services:
       - "8181:8181"
     volumes:
       - ./html:/www
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
     links:
      - db
 

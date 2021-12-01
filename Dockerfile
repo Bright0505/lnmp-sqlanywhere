@@ -106,7 +106,7 @@ RUN buildDeps='curl gcc make autoconf libc-dev zlib1g-dev pkg-config' \
 COPY ./supervisord.conf /etc/supervisord.conf
 
 # Override nginx's default config
-COPY ./default.conf /etc/nginx/conf.d/default.conf
+COPY ./config/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Override default nginx welcome page
 #COPY html /usr/share/nginx/html

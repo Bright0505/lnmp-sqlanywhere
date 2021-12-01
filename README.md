@@ -2,7 +2,7 @@
 ### PHP VERSION 7.4
 ### MySQL VERSION 8
 ### COMPOSER VERSION 1.10.22
-### SQLAnywhere VERSION 17
+### SQLAnywhere VERSION 16
 
 # 安裝 mysql and phpMyAdmin
 實行前請確認是否安裝 docker-compose  
