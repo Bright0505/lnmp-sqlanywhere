@@ -89,7 +89,6 @@ RUN buildDeps='curl gcc make autoconf libc-dev zlib1g-dev pkg-config' \
     # import php sqlanywhere lib
     && echo "extension = /var/lib/sqlanywhere/lib64/php-7.4.0_sqlanywhere_r.so" > /etc/php/7.4/mods-available/SQLAnywhere.ini \
     && ln -sf /etc/php/7.4/mods-available/SQLAnywhere.ini /etc/php/7.4/fpm/conf.d/40-SQLAnywhere.ini \
-    && echo "env['LD_LIBRARY_PATH'] = /opt/sqlanywhere17/lib64" >> ${fpm_conf} \
     # Install Composer
     && curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
@@ -118,8 +117,8 @@ COPY ./start.sh /start.sh
 
 #install SQLAnywhere
 ADD ./tools/SQLAnywhere-php-7.4_Linux.tar.gz /var/lib/sqlanywhere
-ADD ./tools/sqla17_client_linux_x86x64.tar.gz /tmp/tools
-RUN sh /tmp/tools/client17010/setup -ss -I_accept_the_license_agreement && sh /opt/sqlanywhere17/bin64/sa_config.sh
+ADD ./tools/sqla16_client_linux_x86x64.tar.gz /tmp/tools
+RUN sh /tmp/tools/client1600/setup -ss -I_accept_the_license_agreement
 WORKDIR /www
 
 EXPOSE 80
